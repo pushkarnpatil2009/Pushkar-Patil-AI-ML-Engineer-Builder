@@ -1,0 +1,266 @@
+{
+  "entities": {
+    "user": {
+      "title": "User",
+      "description": "User access record for the CMS",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "Email address of the logged in user"
+        },
+        "isAdmin": {
+          "type": "boolean",
+          "description": "Whether this user is a super admin"
+        }
+      },
+      "required": ["email", "isAdmin"]
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "Personal developer profile information",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the developer"
+        },
+        "bio": {
+          "type": "string",
+          "description": "Biography block"
+        },
+        "skills": {
+          "type": "string",
+          "description": "Comma separated string or JSON list of skills"
+        },
+        "githubLink": {
+          "type": "string",
+          "description": "GitHub profile link"
+        },
+        "linkedinLink": {
+          "type": "string",
+          "description": "LinkedIn profile link"
+        },
+        "twitterLink": {
+          "type": "string",
+          "description": "Twitter profile link"
+        },
+        "email": {
+          "type": "string",
+          "description": "Contact email address"
+        },
+        "profilePhotoUrl": {
+          "type": "string",
+          "description": "URL of the profile photo"
+        },
+        "resumePdfUrl": {
+          "type": "string",
+          "description": "URL of the uploaded PDF resume"
+        }
+      },
+      "required": ["name", "bio"]
+    },
+    "project": {
+      "title": "Project",
+      "description": "Software project or dynamic blueprint showcase",
+      "type": "object",
+      "properties": {
+        "projectName": {
+          "type": "string",
+          "description": "Title of the project"
+        },
+        "description": {
+          "type": "string",
+          "description": "Short explanation of the project"
+        },
+        "technologies": {
+          "type": "string",
+          "description": "Comma-separated technologies utilized"
+        },
+        "githubLink": {
+          "type": "string",
+          "description": "Link to GitHub codebase repository"
+        },
+        "liveDemoLink": {
+          "type": "string",
+          "description": "Link to direct deployment preview"
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "Uploaded showcase thumbnail URL"
+        },
+        "field": {
+          "type": "string",
+          "description": "Technical discipline or category"
+        },
+        "estimatedArrival": {
+          "type": "string",
+          "description": "Estimated timeframe or badge status"
+        }
+      },
+      "required": ["projectName", "description", "technologies"]
+    },
+    "certification": {
+      "title": "Certification",
+      "description": "Earned dynamic technical credential",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Name of the certification"
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Authority or company issuing the credential"
+        },
+        "date": {
+          "type": "string",
+          "description": "Month/Year of credential issuance"
+        },
+        "credentialId": {
+          "type": "string",
+          "description": "Unique certification credential code"
+        },
+        "verificationLink": {
+          "type": "string",
+          "description": "URL to verify the credential online"
+        },
+        "category": {
+          "type": "string",
+          "description": "Subject category (e.g., AI, Analytics, Prompting)"
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Showcase on the primary home screen"
+        },
+        "skills": {
+          "type": "string",
+          "description": "Skills learned or relevant to the certification"
+        }
+      },
+      "required": ["title", "issuer", "date", "credentialId"]
+    },
+    "article": {
+      "title": "Article",
+      "description": "Self-authored article, log post, or documentation",
+      "type": "object",
+      "properties": {
+        "articleTitle": {
+          "type": "string",
+          "description": "Main header title of the article"
+        },
+        "articleLink": {
+          "type": "string",
+          "description": "URL destination of the article"
+        },
+        "thumbnail": {
+          "type": "string",
+          "description": "Cover thumbnail representation image URL"
+        }
+      },
+      "required": ["articleTitle", "articleLink"]
+    },
+    "experience": {
+      "title": "Experience",
+      "description": "Professional experience or tech engagement history",
+      "type": "object",
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "Position title"
+        },
+        "company": {
+          "type": "string",
+          "description": "Organization or company name"
+        },
+        "location": {
+          "type": "string",
+          "description": "City, country, or remote status"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Starting month/year"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Ending month/year (or Present)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Work history responsibilities or bullet points"
+        },
+        "skills": {
+          "type": "string",
+          "description": "Relevant technologies"
+        }
+      },
+      "required": ["role", "company", "startDate", "endDate", "description"]
+    },
+    "education": {
+      "title": "Education",
+      "description": "Academic credentials",
+      "type": "object",
+      "properties": {
+        "degree": {
+          "type": "string",
+          "description": "Graduation title, honors, or certificate"
+        },
+        "institution": {
+          "type": "string",
+          "description": "Academic school name"
+        },
+        "location": {
+          "type": "string",
+          "description": "School location (optional)"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "First academic session month/year"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "Final academic session month/year"
+        },
+        "grade": {
+          "type": "string",
+          "description": "Percentage mark or GPA (optional)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Honors or research summary (optional)"
+        }
+      },
+      "required": ["degree", "institution", "startDate", "endDate"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "user",
+      "description": "Authorized user credential documents"
+    },
+    "/profile/{profileId}": {
+      "schema": "profile",
+      "description": "Primary developer profile container (typically 'default')"
+    },
+    "/projects/{projectId}": {
+      "schema": "project",
+      "description": "Blueprint entries displayed on the dynamic homepage grid"
+    },
+    "/certifications/{certId}": {
+      "schema": "certification",
+      "description": "Professional training and badges list"
+    },
+    "/articles/{articleId}": {
+      "schema": "article",
+      "description": "Self-published written works"
+    },
+    "/experiences/{experienceId}": {
+      "schema": "experience",
+      "description": "Work timeline entries"
+    },
+    "/educations/{educationId}": {
+      "schema": "education",
+      "description": "Education timeline credentials"
+    }
+  }
+}

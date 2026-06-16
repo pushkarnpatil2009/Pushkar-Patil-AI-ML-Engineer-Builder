@@ -1,0 +1,101 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global default-deny catch-all Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper to check if current user is the super admin
+    function isAdmin() {
+      return request.auth != null 
+        && (request.auth.token.email == "pushkarnpatil2009@gmail.com" || request.auth.token.email == "nirmalpatil9961@gmail.com");
+    }
+
+    // ID validation guard
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation blueprints for each entity to defend against update-gaps
+    function isValidProfile(pf) {
+      return pf.name is string && pf.name.size() > 0 && pf.name.size() <= 100
+        && pf.bio is string && pf.bio.size() <= 5000;
+    }
+
+    function isValidProject(pj) {
+      return pj.projectName is string && pj.projectName.size() > 0 && pj.projectName.size() <= 250
+        && pj.description is string && pj.description.size() <= 3000
+        && pj.technologies is string && pj.technologies.size() <= 500;
+    }
+
+    function isValidCertification(ct) {
+      return ct.title is string && ct.title.size() > 0 && ct.title.size() <= 250
+        && ct.issuer is string && ct.issuer.size() > 0 && ct.issuer.size() <= 200
+        && ct.date is string && ct.date.size() <= 100
+        && ct.credentialId is string && ct.credentialId.size() <= 150
+        && (!('skills' in ct) || (ct.skills is string && ct.skills.size() <= 1000));
+    }
+
+    function isValidArticle(art) {
+      return art.articleTitle is string && art.articleTitle.size() > 0 && art.articleTitle.size() <= 250
+        && art.articleLink is string && art.articleLink.size() <= 1000;
+    }
+
+    function isValidExperience(ex) {
+      return ex.role is string && ex.role.size() > 0 && ex.role.size() <= 200
+        && ex.company is string && ex.company.size() > 0 && ex.company.size() <= 200
+        && ex.startDate is string && ex.startDate.size() <= 100
+        && ex.endDate is string && ex.endDate.size() <= 100
+        && ex.description is string && ex.description.size() <= 3000;
+    }
+
+    function isValidEducation(ed) {
+      return ed.degree is string && ed.degree.size() > 0 && ed.degree.size() <= 200
+        && ed.institution is string && ed.institution.size() > 0 && ed.institution.size() <= 200
+        && ed.startDate is string && ed.startDate.size() <= 100
+        && ed.endDate is string && ed.endDate.size() <= 100;
+    }
+
+    // Match blocks for all collection endpoints mapped in the firebase-blueprint
+    match /users/{userId} {
+      allow read, write: if isAdmin() && isValidId(userId);
+    }
+
+    match /profile/{profileId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(profileId) && isValidProfile(request.resource.data);
+      allow delete: if isAdmin() && isValidId(profileId);
+    }
+
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(projectId) && isValidProject(request.resource.data);
+      allow delete: if isAdmin() && isValidId(projectId);
+    }
+
+    match /certifications/{certId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(certId) && isValidCertification(request.resource.data);
+      allow delete: if isAdmin() && isValidId(certId);
+    }
+
+    match /articles/{articleId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(articleId) && isValidArticle(request.resource.data);
+      allow delete: if isAdmin() && isValidId(articleId);
+    }
+
+    match /experiences/{experienceId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(experienceId) && isValidExperience(request.resource.data);
+      allow delete: if isAdmin() && isValidId(experienceId);
+    }
+
+    match /educations/{educationId} {
+      allow read: if true;
+      allow create, update: if isAdmin() && isValidId(educationId) && isValidEducation(request.resource.data);
+      allow delete: if isAdmin() && isValidId(educationId);
+    }
+  }
+}
